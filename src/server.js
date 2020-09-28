@@ -12,20 +12,21 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 const urlStruct = {
   GET: {
     '/': pageHandler.getIndex,
+    '/add': pageHandler.getAdd,
+    '/examine': pageHandler.getExamine,
     '/style.css': pageHandler.getStyle,
-    '/getUsers': jsonHandler.getUsers,
-    '/updateUser': jsonHandler.updateUser,
+    '/getTeams': jsonHandler.getTeams,
     notFound: jsonHandler.notFound,
   },
   HEAD: {
-    '/getUsers': jsonHandler.getUsersMeta,
+    '/getTeam': jsonHandler.getTeamsMeta,
     notFound: jsonHandler.notFoundMeta,
   },
 };
 
 // Post is done with it's own method unlike GET and HEAD which use the url struct
 const handlePost = (request, response, parsedUrl) => {
-  if (parsedUrl.pathname === '/addUser') {
+  if (parsedUrl.pathname === '/addTeam') {
     const body = [];
 
     // Event handler for errors while retrieving data
@@ -45,8 +46,8 @@ const handlePost = (request, response, parsedUrl) => {
       const bodyString = Buffer.concat(body).toString();
       const bodyParams = query.parse(bodyString);
 
-      // Add user
-      jsonHandler.addUser(request, response, bodyParams);
+      // Add team
+      jsonHandler.addTeam(request, response, bodyParams);
     });
   }
 };

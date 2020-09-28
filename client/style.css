@@ -3,11 +3,12 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
+  background-color: #31151d;
+  color: white;
 }
 
 #top {
   text-align: center;
-  margin: 0 auto;
 }
 
 #top h1 {
@@ -18,4 +19,33 @@ html, body {
   margin-top: 100px;
   font-size: 2em;
   text-align: center;
+}
+
+.page {
+  background-color:  #ff3e48;
+  color: #31151d;
+  border-color: white;
+  border-radius: 15px 50px; 
+  width: 275px;
+  height: 150px;
+  text-align: center;
+  display: block;  
+  margin: auto;
+  font-size:  32px;
+  margin-top: 10%;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.iRow {
+  background-color: #100e1444;
+  width: 70%;
+  margin: auto;
+}
+
+p {
+  display: inline-block;
 }

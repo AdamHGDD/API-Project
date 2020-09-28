@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Heroclix Team Builder Add Team</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script type="text/babel">
+    // Turn JSON into an object
+    const parseJSON = (xhr, content) => {
+      if(xhr.response && xhr.getResponseHeader('Content-Type') === 'application/json') {
+        const obj = JSON.parse(xhr.response);
+        console.dir(obj);
+
+        if(obj.message) {
+          content.innerHTML += `<p>Message: ${obj.message}</p>`;
+        } else if(obj.users) {
+          content.innerHTML += '<p>{</p>';
+          for (let user in obj.users)
+          {
+            content.innerHTML += `<p>${obj.users[user].name}:</p>`
+            content.innerHTML += `<p>{name: "${obj.users[user].name}", age: "${obj.users[user].age}"}</p>`;
+          }
+          content.innerHTML += '<p>}</p>';
+        }
+      }
+      
+    };
+
+    // Process requests and put information on the page
+    const handleResponse = (xhr, parseResponse) => {
+      const content = document.querySelector('#content');
+
+      switch(xhr.status){
+        case 200:
+          content.innerHTML = '<b>Success!</b>'
+          break;
+        case 201:
+          content.innerHTML = '<b>Created!</b>'
+          break;
+        case 204:
+          content.innerHTML = '<b>Updated (No Content)</b>'
+          break;
+        case 400:
+          content.innerHTML = '<b>Bad Request</b>'
+          break;
+        case 404:
+          content.innerHTML = '<b>Resource Not Found</b>'
+          break;
+        default:
+          content.innerHTML = '<p>Not Implemented By Client</p>'
+          break;
+      }
+
+      parseJSON(xhr, content);
+    };
+
+    // Send a post request with user information
+    const sendPost = (e, nameForm) => {
+      e.preventDefault();
+
+      // Get information for PUSH
+      const nameAction = nameForm.getAttribute('action');
+      const nameMethod = nameForm.getAttribute('method');
+
+      // Get input for PUSH
+      const nameField = nameForm.querySelector('#nameField');
+      const ageField = nameForm.querySelector('#ageField');
+
+      // Make object for the request
+      const xhr = new XMLHttpRequest();
+      xhr.open(nameMethod, nameAction);
+
+      // Assign headers
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+      // Attach handleResponse
+      xhr.onload = () => handleResponse(xhr, false);
+
+      // Send the data
+      const formData = `name=${nameField.value}&age=${ageField.value}`;
+      xhr.send(formData);
+
+      // Avoid bubbling
+      return false;
+    };
+
+    // Method for adding new row
+    const newRow = () => {
+      console.log("init");
+
+      // Get forms
+      const nameForm = document.querySelector('#nameForm');
+
+      // Assign variables for methods 
+      const addUser = (e) => sendPost(e, nameForm); 
+
+      // Assign events to those variables
+      nameForm.addEventListener('submit', addUser);
+    };
+
+
+    // Attach form script information to the webpage
+    const init = () => {
+      console.log("init");
+
+      // Get forms
+      const nameForm = document.querySelector('#nameForm');
+
+      // Assign variables for methods 
+      const addUser = (e) => sendPost(e, nameForm); 
+
+      // Assign events to those variables
+      nameForm.addEventListener('submit', addUser);
+    };
+
+    window.onload = init;
+  </script>
+</head>
+<body>
+  <section id="top">
+    <form id="nameForm" action="/addUser" method="post">
+      <label for="name">Team Name: </label>
+      <input id="nameField" type="text" name="name" />
+      <label for="cost">Cost: </label>
+      <p name="cost">0</p>
+      <input type="submit" value="Add Team" />
+    </form>
+  </section>
+  <section id="clix">
+    <div class="iRow">
+      <label for="iName">Name: </label>
+      <input id="iNameField" type="text" name="iName"/>  
+      <label for="iLink">Image Link: </label>
+      <input id="iLinkField" type="text" name="iLink"/>  
+      <label for="iLife">Life Total: </label>
+      <input id="iLifeField" type="number" max="12" min="1" name="iLife"/>  
+      <label for="iCost">Cost: </label>
+      <input id="iCostField" type="number" max="300" min="1" name="iCost"/>  
+
+      <label for="iSpeeds">Speeds: </label>
+      <input id="iSpeedsField" type="text" name="iSpeeds"/>  
+      <label for="iStrengths">Strengths: </label>
+      <input id="iStrengthsField" type="text" name="iStrengths"/>  
+      <label for="iDefenses">Defenses: </label>
+      <input id="iDefensesField" type="text" name="iDefenses"/>  
+      <label for="iPowers">Damages: </label>
+      <input id="iPowersField" type="text" name="iPowers"/>  
+
+      <p>The number of values in the speed, strength, defense, and damage categories must match the life total. Values should be seperated by a space</p>
+      <input type="submit" value="Confirm" /> 
+    </div>
+    <button id="AddClix">Add Clix</button>
+  </section>
+</body>
+</html>
