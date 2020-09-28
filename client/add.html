@@ -59,13 +59,43 @@
     const sendPost = (e, nameForm) => {
       e.preventDefault();
 
-      // Get information for PUSH
+      // Get input for PUSH
       const nameAction = nameForm.getAttribute('action');
       const nameMethod = nameForm.getAttribute('method');
 
-      // Get input for PUSH
-      const nameField = nameForm.querySelector('#nameField');
-      const ageField = nameForm.querySelector('#ageField');
+      // New information
+      const iRows = document.querySelectorAll(".iRow");
+      const nameField = document.querySelector('#nameField');
+      let formData = `teamName=${nameField.value}&rows=${iRows.length}`;
+      
+      // Loop through the rows
+      for(let row = 0; row < iRows.length; row++)
+      {
+        // Add all information to be sent
+        let iNameField = iRows[row].querySelector('.iNameField');
+        formData += `&name${row}=${iNameField.value}`;
+
+        let iLinkField = iRows[row].querySelector('.iLinkField');
+        formData += `&link${row}=${iNameField.value}`;
+
+        let iLifeField = iRows[row].querySelector('.iLifeField');
+        formData += `&life${row}=${iNameField.value}`;
+
+        let iCostField = iRows[row].querySelector('.iCostField');
+        formData += `&cost${row}=${iNameField.value}`;
+
+        let iSpeedsField = iRows[row].querySelector('.iSpeedsField');
+        formData += `&speed${row}=${iNameField.value}`;
+
+        let iStrengthsField = iRows[row].querySelector('.iStrengthsField');
+        formData += `&strengths${row}=${iNameField.value}`;
+
+        let iDefensesField = iRows[row].querySelector('.iDefensesField');
+        formData += `&defenses${row}=${iNameField.value}`;
+
+        let iDamagesField = iRows[row].querySelector('.iDamagesField');
+        formData += `&damages${row}=${iNameField.value}`;
+      }
 
       // Make object for the request
       const xhr = new XMLHttpRequest();
@@ -79,8 +109,8 @@
       xhr.onload = () => handleResponse(xhr, false);
 
       // Send the data
-      const formData = `name=${nameField.value}&age=${ageField.value}`;
       xhr.send(formData);
+      console.dir(formData);
 
       // Avoid bubbling
       return false;
@@ -88,16 +118,7 @@
 
     // Method for adding new row
     const newRow = () => {
-      console.log("init");
-
-      // Get forms
-      const nameForm = document.querySelector('#nameForm');
-
-      // Assign variables for methods 
-      const addUser = (e) => sendPost(e, nameForm); 
-
-      // Assign events to those variables
-      nameForm.addEventListener('submit', addUser);
+      // Need to implement
     };
 
 
@@ -131,22 +152,44 @@
   <section id="clix">
     <div class="iRow">
       <label for="iName">Name: </label>
-      <input id="iNameField" type="text" name="iName"/>  
+      <input class="iNameField" type="text" name="iName"/>  
       <label for="iLink">Image Link: </label>
-      <input id="iLinkField" type="text" name="iLink"/>  
+      <input class="iLinkField" type="text" name="iLink"/>  
       <label for="iLife">Life Total: </label>
-      <input id="iLifeField" type="number" max="12" min="1" name="iLife"/>  
+      <input class="iLifeField" type="number" max="12" min="1" name="iLife"/>  
       <label for="iCost">Cost: </label>
-      <input id="iCostField" type="number" max="300" min="1" name="iCost"/>  
+      <input class="iCostField" type="number" max="300" min="1" name="iCost"/>  
 
       <label for="iSpeeds">Speeds: </label>
-      <input id="iSpeedsField" type="text" name="iSpeeds"/>  
+      <input class="iSpeedsField" type="text" name="iSpeeds"/>  
       <label for="iStrengths">Strengths: </label>
-      <input id="iStrengthsField" type="text" name="iStrengths"/>  
+      <input class="iStrengthsField" type="text" name="iStrengths"/>  
       <label for="iDefenses">Defenses: </label>
-      <input id="iDefensesField" type="text" name="iDefenses"/>  
-      <label for="iPowers">Damages: </label>
-      <input id="iPowersField" type="text" name="iPowers"/>  
+      <input class="iDefensesField" type="text" name="iDefenses"/>  
+      <label for="iDamages">Damages: </label>
+      <input class="iDamagesField" type="text" name="iDamages"/>  
+
+      <p>The number of values in the speed, strength, defense, and damage categories must match the life total. Values should be seperated by a space</p>
+      <input type="submit" value="Confirm" /> 
+    </div>
+    <div class="iRow">
+      <label for="iName">Name: </label>
+      <input class="iNameField" type="text" name="iName"/>  
+      <label for="iLink">Image Link: </label>
+      <input class="iLinkField" type="text" name="iLink"/>  
+      <label for="iLife">Life Total: </label>
+      <input class="iLifeField" type="number" max="12" min="1" name="iLife"/>  
+      <label for="iCost">Cost: </label>
+      <input class="iCostField" type="number" max="300" min="1" name="iCost"/>  
+
+      <label for="iSpeeds">Speeds: </label>
+      <input class="iSpeedsField" type="text" name="iSpeeds"/>  
+      <label for="iStrengths">Strengths: </label>
+      <input class="iStrengthsField" type="text" name="iStrengths"/>  
+      <label for="iDefenses">Defenses: </label>
+      <input class="iDefensesField" type="text" name="iDefenses"/>  
+      <label for="iDamages">Damages: </label>
+      <input class="iDamagesField" type="text" name="iDamages"/>  
 
       <p>The number of values in the speed, strength, defense, and damage categories must match the life total. Values should be seperated by a space</p>
       <input type="submit" value="Confirm" /> 

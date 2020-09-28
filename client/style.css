@@ -44,8 +44,13 @@ a {
   background-color: #100e1444;
   width: 70%;
   margin: auto;
+  margin-top: 50px;
 }
 
 p {
   display: inline-block;
+}
+
+button {
+  margin: auto;
 }

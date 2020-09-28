@@ -1,5 +1,4 @@
-
-    // Turn JSON into an object
+// Turn JSON into an object
     const parseJSON = (xhr, content) => {
       if(xhr.response && xhr.getResponseHeader('Content-Type') === 'application/json') {
         const obj = JSON.parse(xhr.response);
@@ -48,45 +47,28 @@
       parseJSON(xhr, content);
     };
 
-    // Send a get request for user information (or send a head request)
-    const requestUpdate = (e, userForm) => {
-      // Information for GET / HEAD requests
-      const url = userForm.querySelector('#urlField').value;
-      const method = userForm.querySelector('#methodSelect').value;
-
-      // Set up the type of request
-      const xhr = new XMLHttpRequest();
-      xhr.open(method, url);
-
-      // Set up headers for the request
-      xhr.setRequestHeader('Accept', 'application/json');
-
-      // Get or load attach handleResponse
-      if(method === 'get'){
-        xhr.onload = () => handleResponse(xhr, true);
-      } else {
-        xhr.onload = () => handleResponse(xhr, false);
-      }
-
-      // Send data
-      xhr.send();
-      e.preventDefault();
-
-      // Avoid bubbling
-      return false;
-    };
-
     // Send a post request with user information
     const sendPost = (e, nameForm) => {
       e.preventDefault();
 
-      // Get information for PUSH
-      const nameAction = nameForm.getAttribute('action');
-      const nameMethod = nameForm.getAttribute('method');
-
       // Get input for PUSH
-      const nameField = nameForm.querySelector('#nameField');
-      const ageField = nameForm.querySelector('#ageField');
+      const iRows = document.querySelectorAll(".iRow");
+      const nameField = document.querySelector('#nameField');
+      let formData = `teamName=${nameField.value}&rows=${iRows.length}`;
+      
+      // Loop through the rows
+      for(let row = 0; row < iRows.length; row++)
+      {
+        let iNameField = iRows[row].querySelector('#iNameField');
+        let iLinkField = iRows[row].querySelector('#iLinkField');
+        let iLifeField = iRows[row].querySelector('#iLifeField');
+        let iCostField = iRows[row].querySelector('#iCostField');
+        let iSpeedsField = iRows[row].querySelector('#iSpeedsField');
+        let iStrengthsField = iRows[row].querySelector('#iStrengthsField');
+        let iDefensesField = iRows[row].querySelector('#iDefensesField');
+        let iPowersField = iRows[row].querySelector('#iPowersField');
+        formData += `&name${row}=${iNameField.value}`;
+      }
 
       // Make object for the request
       const xhr = new XMLHttpRequest();
@@ -100,27 +82,29 @@
       xhr.onload = () => handleResponse(xhr, false);
 
       // Send the data
-      const formData = `name=${nameField.value}&age=${ageField.value}`;
       xhr.send(formData);
 
       // Avoid bubbling
       return false;
     };
 
+    // Method for adding new row
+    const newRow = () => {
+      // Need to implement
+    };
+
+
     // Attach form script information to the webpage
     const init = () => {
       console.log("init");
 
       // Get forms
-      const userForm = document.querySelector('#userForm');
       const nameForm = document.querySelector('#nameForm');
 
-      // Assign variables for methods
-      const getUsers = (e) => requestUpdate(e, userForm); 
+      // Assign variables for methods 
       const addUser = (e) => sendPost(e, nameForm); 
 
       // Assign events to those variables
-      userForm.addEventListener('submit', getUsers);
       nameForm.addEventListener('submit', addUser);
     };
 
