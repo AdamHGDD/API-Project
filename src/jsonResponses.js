@@ -85,25 +85,26 @@ const addTeam = (request, response, body) => {
     // Create cleared out object
     (teams[body.teamName])[i] = {};
     // Add in strings
-    (teams[body.teamName])[i].name = body[`names${i}`];
+    (teams[body.teamName])[i].name = body[`name${i}`];
     (teams[body.teamName])[i].link = body[`link${i}`];
     // Turn strings that are numbers into ints
-    parseInt(body[`life${i}`], (teams[body.teamName])[i].life);
-    parseInt(body[`cost${i}`], (teams[body.teamName])[i].cost);
+    (teams[body.teamName])[i].life = parseInt(body[`life${i}`], 10);
+    (teams[body.teamName])[i].cost = parseInt(body[`cost${i}`], 10);
     // Turn series of information into the arrays they represent
     (teams[body.teamName])[i].speeds = body[`speeds${i}`].split(" ");
     (teams[body.teamName])[i].strengths = body[`strengths${i}`].split(" ");
     (teams[body.teamName])[i].defenses = body[`defenses${i}`].split(" ");
     (teams[body.teamName])[i].damages = body[`damages${i}`].split(" ");
 
+    // Temp value for checks
+    let life = (teams[body.teamName])[i].life;
     // Check to make sure all information was there
-    if(false)
-    {
-      responseJSON.message = 'At least one row was missing one of its stats';
+    if(!body[`name${i}`] || !body[`link${i}`] || !life || !(teams[body.teamName])[i].cost) {
+      responseJSON.message = 'At least one row was missing one of its basic pieces of information';
       responseJSON.id = 'missingParams';
       return respondJSON(request, response, 400, responseJSON);
-    } else if(false) {
-      responseJSON.message = 'One of the stat blocks did not match up with the life';
+    } else if(life != ((teams[body.teamName])[i].speeds).length || life != ((teams[body.teamName])[i].strengths).length || life != ((teams[body.teamName])[i].defenses).length || life != ((teams[body.teamName])[i].damages).length ) {
+      responseJSON.message = 'One of the stat blocks did not match up with the associated life';
       responseJSON.id = 'missingParams';
       return respondJSON(request, response, 400, responseJSON);
     }
