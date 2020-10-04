@@ -119,8 +119,131 @@
     };
 
     // Method for adding new row
-    const newRow = () => {
-      // Need to implement
+    const newRow = (e) => {
+      console.log("new row");
+
+      // Get the section where it will be added
+      let rows = document.querySelector('#clix');
+
+      // Create new object
+      let row = document.createElement("div");
+      row.setAttribute("class", "iRow");
+
+      // Add all labels and forms
+
+      // Name label and form
+      let iNameLabel = document.createElement("label");
+      iNameLabel.setAttribute("for", "iName");
+      iNameLabel.innerHTML = "Name: ";
+      let iNameField = document.createElement("input");
+      iNameField.setAttribute("class", "iNameField");
+      iNameField.setAttribute("type", "text");
+      iNameField.setAttribute("name", "iName");
+      // Add them to the row object
+      row.appendChild(iNameLabel);
+      row.appendChild(iNameField);
+
+      // Link label and form
+      let iLinkLabel = document.createElement("label");
+      iLinkLabel.setAttribute("for", "iLink");
+      iLinkLabel.innerHTML = "Image Link: ";
+      let iLinkField = document.createElement("input");
+      iLinkField.setAttribute("class", "iLinkField");
+      iLinkField.setAttribute("type", "text");
+      iLinkField.setAttribute("name", "iLink");
+      // Add them to the row object
+      row.appendChild(iLinkLabel);
+      row.appendChild(iLinkField);
+
+      // Life label and form
+      let iLifeLabel = document.createElement("label");
+      iLifeLabel.setAttribute("for", "iLife");
+      iLifeLabel.innerHTML = "Life Total: ";
+      let iLifeField = document.createElement("input");
+      iLifeField.setAttribute("class", "iLifeField");
+      iLifeField.setAttribute("type", "number");
+      iLifeField.setAttribute("max", "12");
+      iLifeField.setAttribute("min", "1");
+      iLifeField.setAttribute("name", "iLife");
+      // Add them to the row object
+      row.appendChild(iLifeLabel);
+      row.appendChild(iLifeField);
+
+      // Cost label and form
+      let iCostLabel = document.createElement("label");
+      iCostLabel.setAttribute("for", "iCost");
+      iCostLabel.innerHTML = "Cost: ";
+      let iCostField = document.createElement("input");
+      iCostField.setAttribute("class", "iCostField");
+      iCostField.setAttribute("type", "number");
+      iCostField.setAttribute("max", "300");
+      iCostField.setAttribute("min", "1");
+      iCostField.setAttribute("name", "iCost");
+      // Add them to the row object
+      row.appendChild(iCostLabel);
+      row.appendChild(iCostField);
+
+      // Speeds label and form
+      let iSpeedsLabel = document.createElement("label");
+      iSpeedsLabel.setAttribute("for", "iSpeeds");
+      iSpeedsLabel.innerHTML = "Speeds: ";
+      let iSpeedsField = document.createElement("input");
+      iSpeedsField.setAttribute("class", "iSpeedsField");
+      iSpeedsField.setAttribute("type", "text");
+      iSpeedsField.setAttribute("name", "iSpeeds");
+      // iSpeedsField them to the row object
+      row.appendChild(iSpeedsLabel);
+      row.appendChild(iSpeedsField);
+
+      // Strengths label and form
+      let iStrengthsLabel = document.createElement("label");
+      iStrengthsLabel.setAttribute("for", "iStrengths");
+      iStrengthsLabel.innerHTML = "Strengths: ";
+      let iStrengthsField = document.createElement("input");
+      iStrengthsField.setAttribute("class", "iStrengthsField");
+      iStrengthsField.setAttribute("type", "text");
+      iStrengthsField.setAttribute("name", "iStrengths");
+      // iSpeedsField them to the row object
+      row.appendChild(iStrengthsLabel);
+      row.appendChild(iStrengthsField);
+
+      // Defenses label and form
+      let iDefensesLabel = document.createElement("label");
+      iDefensesLabel.setAttribute("for", "iDefenses");
+      iDefensesLabel.innerHTML = "Defenses: ";
+      let iDefensesField = document.createElement("input");
+      iDefensesField.setAttribute("class", "iDefensesField");
+      iDefensesField.setAttribute("type", "text");
+      iDefensesField.setAttribute("name", "iDefenses");
+      // iSpeedsField them to the row object
+      row.appendChild(iDefensesLabel);
+      row.appendChild(iDefensesField);
+
+      // Damages label and form
+      let iDamagesLabel = document.createElement("label");
+      iDamagesLabel.setAttribute("for", "iDamages");
+      iDamagesLabel.innerHTML = "Damages: ";
+      let iDamagesField = document.createElement("input");
+      iDamagesField.setAttribute("class", "iDamagesField");
+      iDamagesField.setAttribute("type", "text");
+      iDamagesField.setAttribute("name", "iDamages");
+      // iSpeedsField them to the row object
+      row.appendChild(iDamagesLabel);
+      row.appendChild(iDamagesField);
+
+      // Final pieces of the row
+      // Warning paragraph
+      let paragraph = document.createElement("p");
+      paragraph.innerHTML = "The number of values in the speed, strength, defense, and damage categories must match the life total. Values should be seperated by a space";
+      row.appendChild(paragraph);
+      // Submit button
+      let confirm = document.createElement("input");
+      confirm.setAttribute("type", "submit");
+      confirm.setAttribute("value", "Confirm");
+      row.appendChild(confirm);
+
+      // Add row to the end of rows
+      rows.appendChild(row);
     };
 
 
@@ -130,12 +253,14 @@
 
       // Get forms
       const nameForm = document.querySelector('#nameForm');
+      const rowAdder = document.querySelector('#AddClix');
 
       // Assign variables for methods 
       const addTeam = (e) => sendPost(e, nameForm); 
 
       // Assign events to those variables
       nameForm.addEventListener('submit', addTeam);
+      rowAdder.addEventListener('click', newRow);
     };
 
     window.onload = init;
@@ -174,29 +299,7 @@
       <p>The number of values in the speed, strength, defense, and damage categories must match the life total. Values should be seperated by a space</p>
       <input type="submit" value="Confirm" /> 
     </div>
-    <div class="iRow">
-      <label for="iName">Name: </label>
-      <input class="iNameField" type="text" name="iName"/>  
-      <label for="iLink">Image Link: </label>
-      <input class="iLinkField" type="text" name="iLink"/>  
-      <label for="iLife">Life Total: </label>
-      <input class="iLifeField" type="number" max="12" min="1" name="iLife"/>  
-      <label for="iCost">Cost: </label>
-      <input class="iCostField" type="number" max="300" min="1" name="iCost"/>  
-
-      <label for="iSpeeds">Speeds: </label>
-      <input class="iSpeedsField" type="text" name="iSpeeds"/>  
-      <label for="iStrengths">Strengths: </label>
-      <input class="iStrengthsField" type="text" name="iStrengths"/>  
-      <label for="iDefenses">Defenses: </label>
-      <input class="iDefensesField" type="text" name="iDefenses"/>  
-      <label for="iDamages">Damages: </label>
-      <input class="iDamagesField" type="text" name="iDamages"/>  
-
-      <p>The number of values in the speed, strength, defense, and damage categories must match the life total. Values should be seperated by a space</p>
-      <input type="submit" value="Confirm" /> 
-    </div>
-    <button id="AddClix">Add Clix</button>
   </section>
+  <button id="AddClix">Add Clix</button>
 </body>
 </html>
