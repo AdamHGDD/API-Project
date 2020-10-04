@@ -96,14 +96,20 @@ const addTeam = (request, response, body) => {
     (teams[body.teamName])[i].defenses = body[`defenses${i}`].split(" ");
     (teams[body.teamName])[i].damages = body[`damages${i}`].split(" ");
 
-    // Temp value for checks
+    // Temp values for checks
     let life = (teams[body.teamName])[i].life;
+    // Without these the line gets too long
+    let len1 = ((teams[body.teamName])[i].speeds).length;
+    let len2 = ((teams[body.teamName])[i].strengths).length
+    let len3 = ((teams[body.teamName])[i].defenses).length
+    let len4 = ((teams[body.teamName])[i].damages).length
+
     // Check to make sure all information was there
     if(!body[`name${i}`] || !body[`link${i}`] || !life || !(teams[body.teamName])[i].cost) {
       responseJSON.message = 'At least one row was missing one of its basic pieces of information';
       responseJSON.id = 'missingParams';
       return respondJSON(request, response, 400, responseJSON);
-    } else if(life != ((teams[body.teamName])[i].speeds).length || life != ((teams[body.teamName])[i].strengths).length || life != ((teams[body.teamName])[i].defenses).length || life != ((teams[body.teamName])[i].damages).length ) {
+    } else if(life !== len1 || life !== len2 || life !== len3 || life !== len4 ) {
       responseJSON.message = 'The length of values in one of the stat blocks did not match up with the associated life';
       responseJSON.id = 'misalignedArray';
       return respondJSON(request, response, 400, responseJSON);
