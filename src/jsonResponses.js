@@ -104,8 +104,8 @@ const addTeam = (request, response, body) => {
       responseJSON.id = 'missingParams';
       return respondJSON(request, response, 400, responseJSON);
     } else if(life != ((teams[body.teamName])[i].speeds).length || life != ((teams[body.teamName])[i].strengths).length || life != ((teams[body.teamName])[i].defenses).length || life != ((teams[body.teamName])[i].damages).length ) {
-      responseJSON.message = 'One of the stat blocks did not match up with the associated life';
-      responseJSON.id = 'missingParams';
+      responseJSON.message = 'The length of values in one of the stat blocks did not match up with the associated life';
+      responseJSON.id = 'misalignedArray';
       return respondJSON(request, response, 400, responseJSON);
     }
   }
