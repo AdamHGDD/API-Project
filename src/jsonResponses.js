@@ -23,11 +23,30 @@ const respondJSONMeta = (request, response, status) => {
 };
 
 // Get teams object
-const getTeams = (request, response) => {
-  // Object to send
-  const responseJSON = {
+const getTeams = (request, response, search) => {
+  // All teams to start
+  let responseJSON = {
     teams,
   };
+
+  // If search params are added check for that string in the teams name
+  if(search)
+  {
+    // New team for just searched names
+    let tempTeams = {};
+    // Loop through all possible teams
+    for (let team in teams) 
+    {
+      console.log("about to print a team");
+      console.dir(team);
+      if(team.includes(search))
+      {
+        // Add to the new object if the string is contained
+        tempTeams[teams] = teams[team];
+      }
+    }
+    let responseJSON = { tempTeams, };
+  }
 
   // Use helper function
   return respondJSON(request, response, 200, responseJSON);

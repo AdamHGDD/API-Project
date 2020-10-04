@@ -58,6 +58,7 @@ const handlePost = (request, response, parsedUrl) => {
 const onRequest = (request, response) => {
   // Get parsed request information
   const parsedUrl = url.parse(request.url);
+  const params = query.parse(parsedUrl.query);
 
   // Print out information for the request
   console.dir(parsedUrl.pathname);
@@ -69,7 +70,7 @@ const onRequest = (request, response) => {
   } else if (urlStruct[request.method][parsedUrl.pathname]) {
     // Get and Head requests
     // Call relevant method
-    urlStruct[request.method][parsedUrl.pathname](request, response);
+    urlStruct[request.method][parsedUrl.pathname](request, response, params.search);
   } else {
     // Request URL is not found
     urlStruct[request.method].notFound(request, response);

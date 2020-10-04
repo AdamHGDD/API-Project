@@ -48,10 +48,6 @@
     const sendPost = (e, nameForm) => {
       e.preventDefault();
 
-      // Get input for PUSH
-      const nameAction = nameForm.getAttribute('action');
-      const nameMethod = nameForm.getAttribute('method');
-
       // New information
       const iRows = document.querySelectorAll(".iRow");
       const nameField = document.querySelector('#nameField');
@@ -88,7 +84,7 @@
 
       // Make object for the request
       const xhr = new XMLHttpRequest();
-      xhr.open(nameMethod, nameAction);
+      xhr.open("POST", "/addTeam");
 
       // Assign headers
       xhr.setRequestHeader('Accept', 'application/json');
@@ -99,8 +95,6 @@
 
       // Send the data
       xhr.send(formData);
-      console.dir(nameMethod);
-      console.dir(nameAction);
       console.dir(formData);
 
       // Avoid bubbling
@@ -257,7 +251,7 @@
 </head>
 <body>
   <section id="top">
-    <form id="nameForm" action="/addTeam" method="post">
+    <form id="nameForm">
       <label for="name">Team Name: </label>
       <input id="nameField" type="text" name="name" />
       <p id="message">Team Not Yet Submitted</p>
