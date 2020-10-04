@@ -7,21 +7,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
     // Turn JSON into an object
-    const parseJSON = (xhr, content) => {
+    const parseJSON = (xhr, message) => {
       if(xhr.response && xhr.getResponseHeader('Content-Type') === 'application/json') {
         const obj = JSON.parse(xhr.response);
         console.dir(obj);
 
         if(obj.message) {
-          content.innerHTML += `<p>Message: ${obj.message}</p>`;
-        } else if(obj.users) {
-          content.innerHTML += '<p>{</p>';
-          for (let user in obj.users)
-          {
-            content.innerHTML += `<p>${obj.users[user].name}:</p>`
-            content.innerHTML += `<p>{name: "${obj.users[user].name}", age: "${obj.users[user].age}"}</p>`;
-          }
-          content.innerHTML += '<p>}</p>';
+          message.innerHTML += `${obj.message}`;
         }
       }
       
@@ -29,30 +21,27 @@
 
     // Process requests and put information on the page
     const handleResponse = (xhr, parseResponse) => {
-      const content = document.querySelector('#content');
+      const message = document.querySelector('#message');
 
+      // These are the only 3 cases that this UI can receive
+      // To get 200 go to the examine page
+      // To get case 404 go to an incorrect page
       switch(xhr.status){
-        case 200:
-          content.innerHTML = '<b>Success!</b>'
-          break;
         case 201:
-          content.innerHTML = '<b>Created!</b>'
+          message.innerHTML = 'Team Successfully Added - '
+          message.style.color = "#EDF5E1";
           break;
         case 204:
-          content.innerHTML = '<b>Updated (No Content)</b>'
+          message.innerHTML = 'Team Successfully Updated'
+          message.style.color = "#EDF5E1";
           break;
         case 400:
-          content.innerHTML = '<b>Bad Request</b>'
-          break;
-        case 404:
-          content.innerHTML = '<b>Resource Not Found</b>'
-          break;
-        default:
-          content.innerHTML = '<p>Not Implemented By Client</p>'
+          message.innerHTML = 'Team Failed To Build - '
+          message.style.color = "#FC4445";
           break;
       }
 
-      parseJSON(xhr, content);
+      parseJSON(xhr, message);
     };
 
     // Send a post request with user information
@@ -271,8 +260,7 @@
     <form id="nameForm" action="/addTeam" method="post">
       <label for="name">Team Name: </label>
       <input id="nameField" type="text" name="name" />
-      <label for="cost">Cost: </label>
-      <p name="cost">0</p>
+      <p id="message">Team Not Yet Submitted</p>
       <input type="submit" value="Add Team" />
     </form>
   </section>

@@ -65,6 +65,7 @@ const addTeam = (request, response, body) => {
 
   // Set response code to say that an object was created
   let responseCode = 201;
+  let prevTeam = teams[body.teamName];
 
   if (teams[body.teamName]) {
   // Set response code to say that an object was updated
@@ -77,7 +78,7 @@ const addTeam = (request, response, body) => {
 
   // Set up for looping on GET requests
   teams[body.teamName].clix = rows;
-  console.log(rows);
+  teams[body.teamName].cost = 0;
 
   // Go through all rows and add their information
   for (let i = 0; i < rows; i++) 
@@ -90,6 +91,7 @@ const addTeam = (request, response, body) => {
     // Turn strings that are numbers into ints
     (teams[body.teamName])[i].life = parseInt(body[`life${i}`], 10);
     (teams[body.teamName])[i].cost = parseInt(body[`cost${i}`], 10);
+    teams[body.teamName].cost += (teams[body.teamName])[i].cost;
     // Turn series of information into the arrays they represent
     (teams[body.teamName])[i].speeds = body[`speeds${i}`].split(" ");
     (teams[body.teamName])[i].strengths = body[`strengths${i}`].split(" ");
@@ -108,10 +110,16 @@ const addTeam = (request, response, body) => {
     if(!body[`name${i}`] || !body[`link${i}`] || !life || !(teams[body.teamName])[i].cost) {
       responseJSON.message = 'At least one row was missing one of its basic pieces of information';
       responseJSON.id = 'missingParams';
+      // Undo bad call's changes on the object
+      teams[body.teamName] = prevTeam;
+      // Bad request
       return respondJSON(request, response, 400, responseJSON);
     } else if(life !== len1 || life !== len2 || life !== len3 || life !== len4 ) {
       responseJSON.message = 'The length of values in one of the stat blocks did not match up with the associated life';
       responseJSON.id = 'misalignedArray';
+      // Undo bad call's changes on the object
+      teams[body.teamName] = prevTeam;
+      // Bad request
       return respondJSON(request, response, 400, responseJSON);
     }
   }
@@ -120,7 +128,7 @@ const addTeam = (request, response, body) => {
 
   // Return a message that shows it was successful
   if (responseCode === 201) {
-    responseJSON.message = 'Created Successfully!';
+    responseJSON.message = `Cost: ${teams[body.teamName].cost}`;
     return respondJSON(request, response, responseCode, responseJSON);
   }
 
