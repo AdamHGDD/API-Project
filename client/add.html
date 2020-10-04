@@ -76,25 +76,25 @@
         formData += `&name${row}=${iNameField.value}`;
 
         let iLinkField = iRows[row].querySelector('.iLinkField');
-        formData += `&link${row}=${iNameField.value}`;
+        formData += `&link${row}=${iLinkField.value}`;
 
         let iLifeField = iRows[row].querySelector('.iLifeField');
-        formData += `&life${row}=${iNameField.value}`;
+        formData += `&life${row}=${iLifeField.value}`;
 
         let iCostField = iRows[row].querySelector('.iCostField');
-        formData += `&cost${row}=${iNameField.value}`;
+        formData += `&cost${row}=${iCostField.value}`;
 
         let iSpeedsField = iRows[row].querySelector('.iSpeedsField');
-        formData += `&speed${row}=${iNameField.value}`;
+        formData += `&speeds${row}=${iSpeedsField.value}`;
 
         let iStrengthsField = iRows[row].querySelector('.iStrengthsField');
-        formData += `&strengths${row}=${iNameField.value}`;
+        formData += `&strengths${row}=${iStrengthsField.value}`;
 
         let iDefensesField = iRows[row].querySelector('.iDefensesField');
-        formData += `&defenses${row}=${iNameField.value}`;
+        formData += `&defenses${row}=${iDefensesField.value}`;
 
         let iDamagesField = iRows[row].querySelector('.iDamagesField');
-        formData += `&damages${row}=${iNameField.value}`;
+        formData += `&damages${row}=${iDamagesField.value}`;
       }
 
       // Make object for the request
@@ -110,6 +110,8 @@
 
       // Send the data
       xhr.send(formData);
+      console.dir(nameMethod);
+      console.dir(nameAction);
       console.dir(formData);
 
       // Avoid bubbling
@@ -130,10 +132,10 @@
       const nameForm = document.querySelector('#nameForm');
 
       // Assign variables for methods 
-      const addUser = (e) => sendPost(e, nameForm); 
+      const addTeam = (e) => sendPost(e, nameForm); 
 
       // Assign events to those variables
-      nameForm.addEventListener('submit', addUser);
+      nameForm.addEventListener('submit', addTeam);
     };
 
     window.onload = init;
@@ -141,7 +143,7 @@
 </head>
 <body>
   <section id="top">
-    <form id="nameForm" action="/addUser" method="post">
+    <form id="nameForm" action="/addTeam" method="post">
       <label for="name">Team Name: </label>
       <input id="nameField" type="text" name="name" />
       <label for="cost">Cost: </label>
