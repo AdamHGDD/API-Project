@@ -35,14 +35,15 @@ const getTeams = (request, response, search) => {
     // New team for just searched names
     let selectedTeams = {};
     // Loop through all possible teams
-    for (let team in teams) 
+    for (let t = 0; t < Object.keys(teams).length; t++) 
     {
+      let key = (Object.keys(teams))[t];
       console.log(`about to print a team for ${search}`);
-      console.dir(team);
-      if(team.includes(search))
+      console.dir(teams[key]);
+      if(key.includes(search))
       {
         // Add to the new object if the string is contained
-        selectedTeams[teams] = teams[team];
+        selectedTeams[teams[key]] = teams[key];
       }
     }
     // Set temp variable to hold object
