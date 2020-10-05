@@ -7,7 +7,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
     // Display for team search comes back and display for individual characters goes away
-    const switchToTeams = () => {
+    const switchToTeams = (e) => {
+      console.log("attempted to switch back to teams");
       // Empty out clix section
       let teamSection = document.querySelector("#teams");
       let clixSection = document.querySelector("#clix");
@@ -294,7 +295,7 @@
 
       // Assign events to those variables
       search.addEventListener('change', requestTeams);
-      search.addEventListener('submit', switchToTeams);
+      back.addEventListener('click', switchToTeams);
 
       // Call to start
       requestTeams(null);
@@ -315,7 +316,7 @@
       <h2 id="topName">Team Name: Just Batman</h2>
       <h3 id="topNumClix">Clix: 1</h3>
       <h3 id="topCost">Team Cost: 125</h3>
-      <input type="submit" value="Back" id="back" />
+      <button id="back">Back</button>
     </section>
   </section>
   <section id="content">
