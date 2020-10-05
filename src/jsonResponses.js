@@ -1,5 +1,5 @@
 // Object that holds all teams
-const teams = {};
+let teams = {};
 
 // Generic helper for sending some sort of JSON response
 const respondJSON = (request, response, status, object) => {
@@ -33,19 +33,24 @@ const getTeams = (request, response, search) => {
   if(search)
   {
     // New team for just searched names
-    let tempTeams = {};
+    let selectedTeams = {};
     // Loop through all possible teams
     for (let team in teams) 
     {
-      console.log("about to print a team");
+      console.log(`about to print a team for ${search}`);
       console.dir(team);
       if(team.includes(search))
       {
         // Add to the new object if the string is contained
-        tempTeams[teams] = teams[team];
+        selectedTeams[teams] = teams[team];
       }
     }
-    let responseJSON = { tempTeams, };
+    // Set temp variable to hold object
+    let tempTeams = teams;
+    teams = selectedTeams;
+    responseJSON = { teams, };
+    // Set teams back to being correct
+    teams = tempTeams;
   }
 
   // Use helper function
