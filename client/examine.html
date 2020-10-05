@@ -6,6 +6,22 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
+    // Display for team search comes back and display for individual characters goes away
+    const switchToTeams = () => {
+      // Empty out clix section
+      let teamSection = document.querySelector("#teams");
+      let clixSection = document.querySelector("#clix");
+      let searchTop = document.querySelector("#searchTop");
+      let teamTop = document.querySelector("#teamTop");
+      clixSection.innerHTML = "";
+
+      // Unhide team/search top sections and hide clix/team top section
+      teamSection.style.display = "block";
+      searchTop.style.display = "block";
+      clixSection.style.display = "none";
+      teamTop.style.display = "none";
+    };
+
     // Add new clix to the page
     const loadClix = (clixObj) => {
       // Get the section where it will be added
@@ -32,18 +48,104 @@
       cost.innerHTML = `Team Cost: ${clixObj.cost}`;
       row.appendChild(cost);
 
+      // Create a basic empty table
+      let table = document.createElement("table");
+      let speedRow = document.createElement("tr");
+      table.appendChild(speedRow);
+      let strengthRow = document.createElement("tr");
+      table.appendChild(strengthRow);
+      let defenseRow = document.createElement("tr");
+      table.appendChild(defenseRow);
+      let damageRow = document.createElement("tr");
+      table.appendChild(damageRow);
+
+      // Add empty headers
+      let speedHeader = document.createElement("th");
+      speedRow.appendChild(speedHeader);
+      let strengthHeader = document.createElement("th");
+      strengthRow.appendChild(strengthHeader);
+      let defenseHeader = document.createElement("th");
+      defenseRow.appendChild(defenseHeader);
+      let damageHeader = document.createElement("th");
+      damageRow.appendChild(damageHeader);
+
+      // Add speed image
+      let speedImage = document.createElement("img");
+      speedImage.className = "statImage";
+      speedImage.setAttribute("src", "https://wizkids.com/heroclix/wp-content/uploads/sites/2/2017/03/EXP.png")
+      speedHeader.appendChild(speedImage);
+
+      // Add strength image
+      let strengthImage = document.createElement("img");
+      strengthImage.className = "statImage";
+      strengthImage.setAttribute("src", "https://wizkids.com/heroclix/wp-content/uploads/sites/2/2018/03/Auto.png")
+      strengthHeader.appendChild(strengthImage);
+
+      // Add defense image
+      let defenseImage = document.createElement("img");
+      defenseImage.className = "statImage";
+      defenseImage.setAttribute("src", "https://vignette.wikia.nocookie.net/heroclix/images/f/f7/Standard_Defense.jpg/revision/latest?cb=20171223031500")
+      defenseHeader.appendChild(defenseImage);
+
+      // Add damage image
+      let damageImage = document.createElement("img");
+      damageImage.className = "statImage";
+      damageImage.setAttribute("src", "https://vignette.wikia.nocookie.net/heroclix/images/d/d1/Standard_Speed.jpg/revision/latest?cb=20171223025605")
+      damageHeader.appendChild(damageImage);
+
+      // Loop through all lives and set them for all 4 rows
+      for(let i = 0; i < clixObj.life; i++)
+      {
+        // Get values
+        let speed = document.createElement("td");
+        speed.innerHTML = clixObj.speeds[i];
+        let strength = document.createElement("td");
+        strength.innerHTML = clixObj.strengths[i];
+        let defense = document.createElement("td");
+        defense.innerHTML = clixObj.defenses[i];
+        let damage = document.createElement("td");
+        damage.innerHTML = clixObj.damages[i];
+
+        // Add them the values to the table rows
+        speedRow.appendChild(speed);
+        strengthRow.appendChild(strength);
+        defenseRow.appendChild(defense);
+        damageRow.appendChild(damage);
+      }
+      // Loop through all extra and set them for all 4 rows
+      for(let j = clixObj.life; j < 12; j++)
+      {
+        // Assign "KO" to value
+        let speed = document.createElement("td");
+        speed.innerHTML = "KO";
+        let strength = document.createElement("td");
+        strength.innerHTML = "KO";
+        let defense = document.createElement("td");
+        defense.innerHTML = "KO";
+        let damage = document.createElement("td");
+        damage.innerHTML = "KO";
+
+        // Add them the values to the table rows
+        speedRow.appendChild(speed);
+        strengthRow.appendChild(strength);
+        defenseRow.appendChild(defense);
+        damageRow.appendChild(damage);
+      }
+
+      // Add table to row
+      row.appendChild(table);
+
       // Add row to the end of rows
       rows.appendChild(row);
     };
 
     // Focus the page on a clicked team
     const focusOnTeam = (e, team) => {
-      // Empty out teams section and clix section
+      // Empty out clix section
       let teamSection = document.querySelector("#teams");
       let clixSection = document.querySelector("#clix");
       let searchTop = document.querySelector("#searchTop");
       let teamTop = document.querySelector("#teamTop");
-      teamSection.innerHTML = "";
       clixSection.innerHTML = "";
 
       // Hide team/search top sections and unhide clix/team top section
@@ -52,9 +154,22 @@
       clixSection.style.display = "block";
       teamTop.style.display = "block";
 
+      // Get text objects for the top
+      let topName = document.querySelector("#topName");
+      let topNumClix = document.querySelector("#topNumClix");
+      let topCost = document.querySelector("#topCost");
+
+      // Switch out the datat in those text objects
+      topName.innerHTML = `Team Name: ${team.teamName}`;
+      topNumClix.innerHTML = `Clix: ${team.clix}`;
+      topCost.innerHTML = `Team Cost: ${team.cost}`;
+
       // Loop through all clix
-      for(let i = 0; i < parseInt(team.clix, 10); i++)
+      console.log("about to load team");
+      console.dir(team);
+      for(let i = 0; i < team.clix; i++)
       {
+        console.log(`about to load individual member ${i}`);
         loadClix(team[i]);
       }
     };
@@ -91,7 +206,7 @@
       image.setAttribute("src", `${team[0].link}`);
       row.appendChild(image);
 
-      const focusEvent = (e) => focusOnTeam(e, row); 
+      const focusEvent = (e) => focusOnTeam(e, team); 
 
       // Add method for clicking on a team
       row.addEventListener("click", focusEvent)
@@ -175,9 +290,11 @@
 
       // Get forms
       const search = document.querySelector("#searchField");
+      const back = document.querySelector("#back");
 
       // Assign events to those variables
       search.addEventListener('change', requestTeams);
+      search.addEventListener('submit', switchToTeams);
 
       // Call to start
       requestTeams(null);
@@ -195,10 +312,10 @@
       </form>
     </section>
     <section id="teamTop">
-      <h2 class="teamName">Team Name: Just Batman</h2>
-      <h3 class="numClix">Clix: 1</h3>
-      <h3 class="teamCost">Team Cost: 125</h3>
-      <input type="submit" value="Back"/>
+      <h2 id="topName">Team Name: Just Batman</h2>
+      <h3 id="topNumClix">Clix: 1</h3>
+      <h3 id="topCost">Team Cost: 125</h3>
+      <input type="submit" value="Back" id="back" />
     </section>
   </section>
   <section id="content">
