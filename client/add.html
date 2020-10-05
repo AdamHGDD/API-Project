@@ -3,6 +3,7 @@
 <head>
   <title>Heroclix Team Builder Add Team</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
@@ -37,7 +38,7 @@
           break;
         case 400:
           message.innerHTML = 'Team Failed To Build - '
-          message.style.color = "#FC4445";
+          message.style.color = "#a9463b";
           break;
       }
 
@@ -219,11 +220,6 @@
       let paragraph = document.createElement("p");
       paragraph.innerHTML = "The number of values in the speed, strength, defense, and damage categories must match the life total. Values should be seperated by a space";
       row.appendChild(paragraph);
-      // Submit button
-      let confirm = document.createElement("input");
-      confirm.setAttribute("type", "submit");
-      confirm.setAttribute("value", "Confirm");
-      row.appendChild(confirm);
 
       // Add row to the end of rows
       rows.appendChild(row);
@@ -255,7 +251,7 @@
       <label for="name">Team Name: </label>
       <input id="nameField" type="text" name="name" />
       <p id="message">Team Not Yet Submitted</p>
-      <input type="submit" value="Add Team" />
+      <input type="submit" value="Add Team" id="addTeamButton" />
     </form>
   </section>
   <section id="clix">
@@ -278,8 +274,7 @@
       <label for="iDamages">Damages: </label>
       <input class="iDamagesField" type="text" name="iDamages"/>  
 
-      <p>The number of values in the speed, strength, defense, and damage categories must match the life total. Values should be seperated by a space</p>
-      <input type="submit" value="Confirm" /> 
+      <p>The number of values in the speed, strength, defense, and damage categories must match the life total. Values should be seperated by a space</p> 
     </div>
   </section>
   <button id="AddClix">Add Clix</button>

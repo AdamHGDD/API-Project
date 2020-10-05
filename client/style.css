@@ -3,16 +3,20 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: #31151d;
+  background-color: #2d5f5c;
   color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
 #top {
   text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 2em;
+  color: #05386B;
 }
 
-#top h1 {
-  font-size: 2em;
+#nameField {
+  margin-right: 6%;
 }
 
 #content {
@@ -22,34 +26,38 @@ html, body {
 }
 
 .page {
-  background-color:  #ff3e48;
-  color: #31151d;
-  border-color: white;
+  background-color:  #05386B;
+  border-color: #5CDB95;
   border-radius: 15px 50px; 
-  width: 275px;
-  height: 150px;
+  width: 30%;
+  height: 20%;
   text-align: center;
   display: block;  
   margin: auto;
-  font-size:  32px;
+  font-size:  4em;
+  font-family: 'Sansita Swashed';
   margin-top: 10%;
   text-decoration: none;
 }
 
-a {
+.page a {
   text-decoration: none;
+  color: #EDF5E1;
 }
 
 .iRow {
-  background-color: #100e1444;
-  width: 70%;
+  background-color: #05386B;
+  border-radius: 15px 50px; 
+  width: 85%;
   margin: auto;
   margin-top: 50px;
+  padding: 2.5%;
 }
 
 .teamEntry{
-  background-color: #100e1444;
-  width: 70%;
+  background-color: #05386B;
+  border-radius: 15px 50px; 
+  width: 85%;
   margin: auto;
   margin-top: 50px;
 }
@@ -60,4 +68,36 @@ p {
 
 button {
   margin: auto;
+}
+
+table{
+  background-color: white;
+}
+
+#AddClix{
+  display: block;
+  float: center;
+  background-color:  #05386B;
+  border-color: #5CDB95;
+  border-radius: 15px 50px; 
+  width: 16%;
+  height: 8%;
+  text-align: center; 
+  margin: auto;
+  font-size:  2.5em;
+  margin-top: 6%;
+  text-decoration: none;
+  color: #EDF5E1;
+}
+
+#addTeamButton {
+  background-color:  #EDF5E1;
+  border-color: #5CDB95;
+  border-radius: 15px 50px; 
+  padding: 1.25%;
+  text-align: center; 
+  margin: auto;
+  font-size:  1em;
+  text-decoration: none;
+  color: #05386B;
 }
