@@ -7,20 +7,97 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
     // Add new clix to the page
-    const loadClix = () => {
-      //
+    const loadClix = (clixObj) => {
+      // Get the section where it will be added
+      let rows = document.querySelector('#clix');
+
+      // Create new object
+      let row = document.createElement("div");
+      row.setAttribute("class", "clixRow");
+      
+      // Image of the leading member of the team
+      let image = document.createElement("img");
+      image.setAttribute("src", `${clixObj.link}`);
+      row.appendChild(image);
+
+      // Name tag for this clix
+      let name = document.createElement("p");
+      name.className = "clixInfo";
+      name.innerHTML = `Team Name: ${clixObj.name}`;
+      row.appendChild(name);
+      
+      // Cost of the this clix
+      let cost = document.createElement("p");
+      cost.className = "clixInfo";
+      cost.innerHTML = `Team Cost: ${clixObj.cost}`;
+      row.appendChild(cost);
+
+      // Add row to the end of rows
+      rows.appendChild(row);
     };
 
     // Focus the page on a clicked team
-    const focusOnTeam = () => {
-      //
+    const focusOnTeam = (e, team) => {
+      // Empty out teams section and clix section
+      let teamSection = document.querySelector("#teams");
+      let clixSection = document.querySelector("#clix");
+      let searchTop = document.querySelector("#searchTop");
+      let teamTop = document.querySelector("#teamTop");
+      teamSection.innerHTML = "";
+      clixSection.innerHTML = "";
+
+      // Hide team/search top sections and unhide clix/team top section
+      teamSection.style.display = "none";
+      searchTop.style.display = "none";
+      clixSection.style.display = "block";
+      teamTop.style.display = "block";
+
+      // Loop through all clix
+      for(let i = 0; i < parseInt(team.clix, 10); i++)
+      {
+        loadClix(team[i]);
+      }
     };
 
     // Add new team item to the page
     const loadTeam = (team) => {
-      //
-      console.log("new team added to page");
-      console.dir(team);
+      // Get the section where it will be added
+      let rows = document.querySelector('#teams');
+
+      // Create new object
+      let row = document.createElement("div");
+      row.setAttribute("class", "teamEntry");
+
+      // Name tag
+      let teamName = document.createElement("h2");
+      teamName.className = "teamName";
+      teamName.innerHTML = `Team Name: ${team.teamName}`;
+      row.appendChild(teamName);
+
+      // Number of clix in this team
+      let numClix = document.createElement("h3");
+      numClix.className = "numClix";
+      numClix.innerHTML = `Num of Clix: ${team.clix}`;
+      row.appendChild(numClix);
+      
+      // Total cost of the team
+      let teamCost = document.createElement("h3");
+      teamCost.className = "teamCost";
+      teamCost.innerHTML = `Team Cost: ${team.cost}`;
+      row.appendChild(teamCost);
+      
+      // Image of the leading member of the team
+      let image = document.createElement("img");
+      image.setAttribute("src", `${team[0].link}`);
+      row.appendChild(image);
+
+      const focusEvent = (e) => focusOnTeam(e, row); 
+
+      // Add method for clicking on a team
+      row.addEventListener("click", focusEvent)
+
+      // Add row to the end of rows
+      rows.appendChild(row);
     };
 
     // Process requests and put information on the page
@@ -37,8 +114,18 @@
 
         if(obj.teams) {
           // Empty out teams section and clix section
+          let teamSection = document.querySelector("#teams");
+          let clixSection = document.querySelector("#clix");
+          let searchTop = document.querySelector("#searchTop");
+          let teamTop = document.querySelector("#teamTop");
+          teamSection.innerHTML = "";
+          clixSection.innerHTML = "";
 
-          // Hide clix section and unhide team section
+          // Unhide team/search top sections and hide clix/team top section
+          teamSection.style.display = "block";
+          searchTop.style.display = "block";
+          clixSection.style.display = "none";
+          teamTop.style.display = "none";
 
           // Load teams
           for(let team in obj.teams)
@@ -109,7 +196,7 @@
     </section>
     <section id="teamTop">
       <h2 class="teamName">Team Name: Just Batman</h2>
-      <h3 class="teamCost">Clix: 1</h3>
+      <h3 class="numClix">Clix: 1</h3>
       <h3 class="teamCost">Team Cost: 125</h3>
       <input type="submit" value="Back"/>
     </section>
@@ -118,12 +205,13 @@
     <section id="teams">
       <div class="teamEntry">
         <h2 class="teamName">Team Name: Just Batman</h2>
+        <h3 class="numClix">Clix: 1</h3>
         <h3 class="teamCost">Team Cost: 125</h3>
         <img src="https://images-na.ssl-images-amazon.com/images/I/41IBXh%2BJaDL._AC_.jpg">
       </div>
     </section>
     <section id="clix">
-      <div class="iRow">
+      <div class="clixRow">
         <img src="https://images-na.ssl-images-amazon.com/images/I/41IBXh%2BJaDL._AC_.jpg">
         <p>Name: Batman</p>
         <p>Cost: 125</p>
